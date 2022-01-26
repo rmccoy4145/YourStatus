@@ -17,7 +17,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
-          <factory-entry name="default" />
+          <factory-entry name="default" value="10b6dc4f-16e1-4c26-b173-1bdcf54b9d56" />
         </datasource-mapping>
         <naming-strategy-map>
           <unit-entry name="yourstatus_PU" value="org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy" />
