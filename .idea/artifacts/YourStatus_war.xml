@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="YourStatus:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>YourStatus</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="YourStatus-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="YourStatus:war exploded" />
+    </root>
+  </artifact>
+</component>
