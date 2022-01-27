@@ -1,7 +1,6 @@
 package com.mccoy.yourstatus.repository;
 
-import com.mccoy.yourstatus.entity.Follower;
-import com.mccoy.yourstatus.entity.Status;
+import com.mccoy.yourstatus.entity.UserStatusMessage;
 import com.mccoy.yourstatus.entity.User;
 
 import javax.persistence.EntityManager;
@@ -12,8 +11,8 @@ public class StatusRepository {
     @PersistenceContext
     EntityManager em;
 
-    List<Status> getStatusByUser(User user){
-        return em.createQuery("SELECT f FROM Status f WHERE f.user = :user", Status.class)
+    List<UserStatusMessage> getStatusByUser(User user){
+        return em.createQuery("SELECT f FROM UserStatusMessage f WHERE f.user = :user", UserStatusMessage.class)
                 .setParameter("user", user)
                 .getResultList();
     }

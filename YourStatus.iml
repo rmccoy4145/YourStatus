@@ -17,6 +17,7 @@
         <setting name="validation-enabled" value="true" />
         <setting name="provider-name" value="Hibernate" />
         <datasource-mapping>
+          <factory-entry name="YourStatus_PU" />
           <factory-entry name="default" value="10b6dc4f-16e1-4c26-b173-1bdcf54b9d56" />
         </datasource-mapping>
         <naming-strategy-map>
@@ -62,10 +63,21 @@
     <orderEntry type="library" name="Maven: com.sun.istack:istack-commons-runtime:3.0.7" level="project" />
     <orderEntry type="library" name="Maven: org.jvnet.staxex:stax-ex:1.8" level="project" />
     <orderEntry type="library" name="Maven: com.sun.xml.fastinfoset:FastInfoset:1.2.15" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.eclipse:yasson:1.0.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: javax.json:javax.json-api:1.1.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: org.glassfish:javax.json:1.1.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-api:5.8.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.opentest4j:opentest4j:1.2.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.platform:junit-platform-commons:1.8.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.apiguardian:apiguardian-api:1.1.2" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider:2.13.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.fasterxml.jackson.jaxrs:jackson-jaxrs-base:2.13.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.fasterxml.jackson.core:jackson-core:2.13.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.13.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.13.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.13.1" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: jakarta.xml.bind:jakarta.xml.bind-api:2.3.3" level="project" />
+    <orderEntry type="library" scope="TEST" name="Maven: jakarta.activation:jakarta.activation-api:1.2.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.jupiter:junit-jupiter-engine:5.8.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.junit.platform:junit-platform-engine:1.8.1" level="project" />
   </component>

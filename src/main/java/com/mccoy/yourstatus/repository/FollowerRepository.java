@@ -1,6 +1,6 @@
 package com.mccoy.yourstatus.repository;
 
-import com.mccoy.yourstatus.entity.Follower;
+import com.mccoy.yourstatus.entity.UserFollow;
 import com.mccoy.yourstatus.entity.User;
 
 import javax.persistence.EntityManager;
@@ -11,8 +11,8 @@ public class FollowerRepository {
     @PersistenceContext
     EntityManager em;
 
-    List<Follower> getFollowersByUser(User user){
-       return em.createQuery("SELECT f FROM Follower f WHERE f.user = :user", Follower.class)
+    List<UserFollow> getFollowersByUser(User user){
+       return em.createQuery("SELECT f FROM UserFollow f WHERE f.user = :user", UserFollow.class)
                .setParameter("user", user)
                .getResultList();
     }
