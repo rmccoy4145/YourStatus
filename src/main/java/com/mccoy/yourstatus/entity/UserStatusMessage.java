@@ -24,8 +24,19 @@ public class UserStatusMessage {
     @JsonbTransient
     private User user;
 
+    @Column(name = "broadcast", nullable = false)
+    private Boolean broadcast = false;
+
     @Transient
     private Long userId;
+
+    public Boolean getBroadcast() {
+        return broadcast;
+    }
+
+    public void setBroadcast(Boolean broadcast) {
+        this.broadcast = broadcast;
+    }
 
     public Long getUserId() {
         return user.getId();

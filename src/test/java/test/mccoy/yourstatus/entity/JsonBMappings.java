@@ -23,9 +23,9 @@ class JsonBMappings {
     static void beforeAll() {
         mapper = JsonbBuilder.newBuilder(new JsonBindingProvider()).build();
         userAStub.setId(1L);
-        userAStub.setUserName("UserA");
+        userAStub.setUsername("UserA");
         userBStub.setId(2L);
-        userBStub.setUserName("UserB");
+        userBStub.setUsername("UserB");
 
     }
 
@@ -40,6 +40,7 @@ class JsonBMappings {
         //given
         mapper = JsonbBuilder.create();
         String jsonString = mapper.toJson(userFollowStub);
+                System.out.println(jsonString);
 
         //then
         Assertions.assertTrue(jsonString.equals("{\"followUserId\":1,\"id\":1,\"userId\":2}"));
@@ -53,6 +54,7 @@ class JsonBMappings {
         userStatusMessage.setUser(userAStub);
         userStatusMessage.setDatetime(LocalDateTime.now());
         userStatusMessage.setMessage("This is a test message");
+        userStatusMessage.setBroadcast(Boolean.FALSE);
 
         //given
         mapper = JsonbBuilder.create();
@@ -60,7 +62,7 @@ class JsonBMappings {
 
 //        System.out.println(jsonString);
         //then
-        Assertions.assertTrue(jsonString.equals("{\"datetime\":\"2022-01-27T15:59:04.2894409\",\"id\":1,\"message\":\"This is a test message\",\"userId\":1}"));
+        Assertions.assertTrue(jsonString.equals("{\"broadcast\":false,\"datetime\":\"2022-01-27T16:15:39.0115503\",\"id\":1,\"message\":\"This is a test message\",\"userId\":1}"));
     }
 
     @Test
@@ -73,6 +75,6 @@ class JsonBMappings {
         String jsonString = mapper.toJson(userAStub);
 
         //then
-        Assertions.assertTrue(jsonString.equals("{\"id\":1,\"userName\":\"UserA\"}"));
+        Assertions.assertTrue(jsonString.equals("{\"id\":1,\"username\":\"UserA\"}"));
     }
 }

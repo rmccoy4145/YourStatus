@@ -10,15 +10,15 @@ public class User {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "user_name", unique = true, length = 25)
-    private String userName;
+    @Column(name = "username", unique = true, length = 25)
+    private String username;
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String userName) {
+        this.username = userName;
     }
 
     public Long getId() {
