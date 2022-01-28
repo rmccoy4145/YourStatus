@@ -18,6 +18,13 @@ public class UserFollowRepositoryImpl implements Repository<UserFollow> {
                .getResultList();
     }
 
+    public List<UserFollow> getFollowersBy(User user){
+        return em.createQuery("SELECT f FROM UserFollow f WHERE f.followUser = :user", com.mccoy.yourstatus.entity.UserFollow.class)
+                .setParameter("user", user)
+                .getResultList();
+    }
+
+
     @Override
     public UserFollow get(Long id) {
         return em.find(UserFollow.class, id);

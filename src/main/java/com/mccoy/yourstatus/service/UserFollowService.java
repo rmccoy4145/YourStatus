@@ -16,12 +16,22 @@ public class UserFollowService {
     Repository<UserFollow> repo = new UserFollowRepositoryImpl();
 
     /**
-     * Get all follow relationships for User
+     * Get all users a user is following
      * @param user
      * @return
      */
-    public List<UserFollow> getFollowRelationshipsOf(User user) {
+    public List<UserFollow> getFollowedBy(User user) {
         return repo.getAllByUser(user);
+    }
+
+    /**
+     * Get all followers of User
+     * @param user
+     * @return
+     */
+    public List<UserFollow> getFollowersOf(User user) {
+        UserFollowRepositoryImpl ufRepoImpl = (UserFollowRepositoryImpl) repo;
+        return ufRepoImpl.getFollowersBy(user);
     }
 
     /**

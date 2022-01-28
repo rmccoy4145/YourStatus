@@ -23,6 +23,11 @@ public class UserStatusMessageRepositoryImpl implements Repository<UserStatusMes
                 .getResultList();
     }
 
+    public List<UserStatusMessage> getAllBroadcast() {
+        return em.createQuery("SELECT f FROM UserStatusMessage f WHERE f.broadcast = true", UserStatusMessage.class)
+                .getResultList();
+    }
+
     @Override
     public UserStatusMessage add(UserStatusMessage userStatusMessage) {
         em.persist(userStatusMessage);

@@ -40,14 +40,24 @@ public class UserStatusMessageService {
     }
 
     /**
+     * Get all boradcast messages
+     * @return
+     */
+    public List<UserStatusMessage> getAllBroadcastMessage() {
+        UserStatusMessageRepositoryImpl usmRepoImpl = (UserStatusMessageRepositoryImpl) messageRepo;
+        return usmRepoImpl.getAllBroadcast();
+    }
+
+    /**
      * Get all messages of User and followed Users sorted by date
      * @param user
      * @return
      */
-    public List<UserStatusMessage> getAllMessageFeedFor(User user) {
+    public List<UserStatusMessage> getMainMessageFeedFor(User user) {
         List<UserStatusMessage> allMessages = new ArrayList<>();
         allMessages.addAll(getUserMessageFeed(user));
         allMessages.addAll(getFollowedMessageFeed(user));
+        allMessages.addAll(getAllBroadcastMessage());
         allMessages.sort((o1, o2) -> {
             return o1.getDatetime().compareTo(o2.getDatetime());
         });
