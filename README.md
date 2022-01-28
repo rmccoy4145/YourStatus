@@ -1,5 +1,13 @@
-# YourStatus
-REST API for YourStatus Social App prototype
+***YourStatus*** - *A Social App proof of concept*
+
+The goal of this project is to create a REST API that
+supports the basic needs of a social media ecosystem. Which
+will include but not limited to the following..
+
+- User Accounts
+- Post messages to a message feed
+- Ability to follow Users
+- Message feed view controlled by followed Users
 
 
 ## API Prototyping
