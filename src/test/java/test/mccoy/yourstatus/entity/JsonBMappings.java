@@ -10,7 +10,10 @@ import org.junit.jupiter.api.Test;
 
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
+import javax.json.bind.JsonbConfig;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 class JsonBMappings {
 
@@ -21,7 +24,7 @@ class JsonBMappings {
 
     @BeforeAll
     static void beforeAll() {
-        mapper = JsonbBuilder.newBuilder(new JsonBindingProvider()).build();
+        mapper = JsonbBuilder.create(new JsonbConfig().withFormatting(true));
         userAStub.setId(1L);
         userAStub.setUsername("UserA");
         userBStub.setId(2L);
@@ -52,7 +55,7 @@ class JsonBMappings {
         UserStatusMessage userStatusMessage = new UserStatusMessage();
         userStatusMessage.setId(1L);
         userStatusMessage.setUser(userAStub);
-        userStatusMessage.setDatetime(LocalDateTime.now());
+        userStatusMessage.setDatetime(LocalDateTime.of(LocalDate.of(2022, 1, 1), LocalTime.of(1, 1)));
         userStatusMessage.setMessage("This is a test message");
         userStatusMessage.setBroadcast(Boolean.FALSE);
 
@@ -60,9 +63,8 @@ class JsonBMappings {
         mapper = JsonbBuilder.create();
         String jsonString = mapper.toJson(userStatusMessage);
 
-//        System.out.println(jsonString);
         //then
-        Assertions.assertTrue(jsonString.equals("{\"broadcast\":false,\"datetime\":\"2022-01-27T16:15:39.0115503\",\"id\":1,\"message\":\"This is a test message\",\"userId\":1}"));
+        Assertions.assertTrue(jsonString.contains("{\"broadcast\":false,\"datetime\":\"2022-01-01T01:01:00\",\"id\":1,\"message\":\"This is a test message\",\"userId\":1}"));
     }
 
     @Test
