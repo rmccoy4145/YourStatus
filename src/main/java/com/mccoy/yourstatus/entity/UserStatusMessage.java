@@ -19,7 +19,7 @@ public class UserStatusMessage {
     //TODO: date time format does not match postman mock server
     private LocalDateTime datetime;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     @JsonbTransient
     private User user;
