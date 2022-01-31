@@ -1,19 +1,17 @@
 package com.mccoy.yourstatus.ui;
 
 import com.mccoy.yourstatus.service.UserStatusMessageService;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.messages.MessageList;
 import com.vaadin.flow.component.messages.MessageListItem;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
@@ -28,6 +26,11 @@ import java.util.List;
 @Route("/")
 public class MainAppView extends AppLayout {
 
+    Tab dashboardTab;
+    Tab usersTab;
+    Tab messagesTab;
+    Tab followTab;
+
     @Inject
     UserStatusMessageService userStatusMessageService;
 
@@ -41,33 +44,52 @@ public class MainAppView extends AppLayout {
 
         Tabs tabs = getTabs();
         addToNavbar(title, tabs);
-        setContent(getMessageList());
+        setContent(getDashboadContent());
     }
 
     private Tabs getTabs() {
+        dashboardTab = new Tab("Dashboard");
+        messagesTab =  new Tab("StatusMessages");
+        usersTab =  new Tab("Users");
+        followTab =  new Tab("Following");
+
         Tabs tabs = new Tabs();
         tabs.getStyle().set("margin", "auto");
         tabs.add(
-                createTab("Dashboard"),
-                createTab("Users"),
-                createTab("StatusMessages"),
-                createTab("Following")
+                dashboardTab,
+                usersTab,
+                messagesTab,
+                followTab
+        );
+        tabs.addSelectedChangeListener(event ->
+                setNewContent(event.getSelectedTab())
         );
         return tabs;
     }
 
-    private Tab createTab(String viewName) {
-        RouterLink link = new RouterLink();
-        link.add(viewName);
-        // Demo has no routes
-        // link.setRoute(viewClass.java);
-        link.setTabIndex(-1);
-        return new Tab(link);
+    void setNewContent(Tab selectedTab) {
+        if(selectedTab.equals(dashboardTab)) {
+            setContent(getDashboadContent());
+        }
+
+        if(selectedTab.equals(messagesTab)) {
+            setContent(getMessageContent());
+        }
+
+        if(selectedTab.equals(usersTab)) {
+            setContent(getUsersContent());
+        }
+
+        if(selectedTab.equals(followTab)) {
+            setContent(getFollowContent());
+        }
     }
 
+    private Component getDashboadContent() {
+        return new Text("Welcome to the YourStatus Admin Panel");
+    }
 
-
-    MessageList getMessageList() {
+    private Component getMessageContent() {
         MessageList messageList = new MessageList();
         List<MessageListItem> items = new ArrayList<>();
 //        userStatusMessageService.getAllMessageFeed().forEach( userStatusMessage -> {
@@ -85,4 +107,13 @@ public class MainAppView extends AppLayout {
         messageList.setItems(items);
         return messageList;
     }
+
+    private Component getUsersContent() {
+        return new Text("Users content...");
+    }
+
+    private Component getFollowContent() {
+        return new Text("Follow content...");
+    }
+
 }
