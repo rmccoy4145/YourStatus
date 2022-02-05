@@ -4,12 +4,13 @@ import com.mccoy.yourstatus.entity.User;
 import com.mccoy.yourstatus.entity.UserStatusMessage;
 import com.mccoy.yourstatus.repository.Repository;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
 public class UserRepositoryImpl implements Repository<User> {
-    @PersistenceContext
+    @PersistenceContext(unitName = "YourStatus_PU")
     EntityManager em;
 
     @Override

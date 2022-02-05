@@ -2,11 +2,12 @@ package com.mccoy.yourstatus.rest;
 
 import com.mccoy.yourstatus.entity.User;
 import com.mccoy.yourstatus.service.UserService;
-
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.awt.*;
+
 
 @Path("/User")
 public class UserEndpoint {

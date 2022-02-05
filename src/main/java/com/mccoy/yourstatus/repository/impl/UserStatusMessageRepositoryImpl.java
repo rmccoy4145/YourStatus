@@ -9,7 +9,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 public class UserStatusMessageRepositoryImpl implements Repository<UserStatusMessage> {
-    @PersistenceContext
+    @PersistenceContext(unitName = "YourStatus_PU")
     EntityManager em;
 
     @Override
