@@ -4,14 +4,24 @@ import com.mccoy.yourstatus.entity.User;
 import com.mccoy.yourstatus.repository.Repository;
 import com.mccoy.yourstatus.repository.impl.UserRepositoryImpl;
 
+import javax.ejb.Stateless;
 import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * Handles operations around the User entity
  */
-@ApplicationScoped
+
 public class UserService {
-    Repository<User> repo = new UserRepositoryImpl();
+
+    Logger LOG = Logger.getLogger(UserService.class.getName());
+    @Inject
+    UserRepositoryImpl repo;
 
     /**
      * Add new user
@@ -30,5 +40,10 @@ public class UserService {
     public User getUser(Long id) {
         return repo.get(id);
     }
+
+    public List<User> getAllUsers() {
+        return repo.getAll();
+    }
+
 
 }

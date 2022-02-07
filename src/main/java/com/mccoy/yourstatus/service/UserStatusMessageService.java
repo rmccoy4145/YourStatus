@@ -8,13 +8,14 @@ import com.mccoy.yourstatus.repository.impl.UserFollowRepositoryImpl;
 import com.mccoy.yourstatus.repository.impl.UserStatusMessageRepositoryImpl;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Handles operations around Status entity
  */
-@ApplicationScoped
+
 public class UserStatusMessageService {
     Repository<UserStatusMessage> messageRepo = new UserStatusMessageRepositoryImpl();
     Repository<UserFollow> followRepo = new UserFollowRepositoryImpl();

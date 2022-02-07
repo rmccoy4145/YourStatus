@@ -6,13 +6,14 @@ import com.mccoy.yourstatus.repository.Repository;
 import com.mccoy.yourstatus.repository.impl.UserFollowRepositoryImpl;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 /**
  * Handles operations around Follow relations
  */
-@ApplicationScoped
+
 public class UserFollowService {
 
     Repository<UserFollow> repo = new UserFollowRepositoryImpl();
@@ -60,6 +61,10 @@ public class UserFollowService {
         }).findFirst();
 
         optUserFollow.ifPresent(userFollow -> repo.remove(userFollow));
+    }
+
+    public List<UserFollow> getAll() {
+        return repo.getAll();
     }
 
 }
