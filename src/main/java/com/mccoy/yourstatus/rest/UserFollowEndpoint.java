@@ -2,6 +2,7 @@ package com.mccoy.yourstatus.rest;
 
 import com.mccoy.yourstatus.entity.User;
 import com.mccoy.yourstatus.entity.UserFollow;
+import com.mccoy.yourstatus.entity.invalid.InvalidUser;
 import com.mccoy.yourstatus.service.UserFollowService;
 import com.mccoy.yourstatus.service.UserService;
 
@@ -35,7 +36,7 @@ public class UserFollowEndpoint {
     @Path("/followers")
     public Response getFollowers(@QueryParam("userId") Long userId) {
         User user = userService.getUser(userId);
-        if(user == null) return Response.serverError().entity("Unknown User").build();
+        if(user instanceof InvalidUser) return Response.serverError().entity("Invalid User").build();
         List<UserFollow> following = userFollowService.getFollowersOf(user);
         return Response.ok().entity(following).build();
     }
@@ -45,9 +46,9 @@ public class UserFollowEndpoint {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addFollow(@QueryParam("userId") Long userId, @QueryParam("followUserId") Long followUserId) {
         User user = userService.getUser(userId);
-        if(user == null) return Response.serverError().entity("Unknown User").build();
+        if(user instanceof InvalidUser) return Response.serverError().entity("Invalid User").build();
         User followUser = userService.getUser(followUserId);
-        if(followUser == null) return Response.serverError().entity("Unknown User").build();
+        if(followUser instanceof InvalidUser) return Response.serverError().entity("Invalid FollowUser").build();
         userFollowService.addFollower(user, followUser);
         return Response.ok().entity("Follow added!").build();
     }

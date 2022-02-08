@@ -3,21 +3,18 @@ package com.mccoy.yourstatus.repository.impl;
 import com.mccoy.yourstatus.entity.UserStatusMessage;
 import com.mccoy.yourstatus.entity.User;
 import com.mccoy.yourstatus.repository.AbstractDAO;
-import com.mccoy.yourstatus.repository.Repository;
+import com.mccoy.yourstatus.repository.OwnedByUserDAO;
 
-import javax.ejb.Stateless;
-import javax.enterprise.context.ApplicationScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Transactional
-public class UserStatusMessageRepositoryImpl extends AbstractDAO implements Repository<UserStatusMessage> {
+public class UserStatusMessageDAOImpl extends AbstractDAO<UserStatusMessage> implements OwnedByUserDAO<UserStatusMessage> {
 
     @Override
-    public UserStatusMessage get(Long id) {
-        return getEm().find(UserStatusMessage.class, id);
+    public Optional<UserStatusMessage> get(Long id) {
+        return Optional.ofNullable(getEm().find(UserStatusMessage.class, id));
     }
 
     @Override

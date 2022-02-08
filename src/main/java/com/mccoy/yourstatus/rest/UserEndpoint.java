@@ -1,12 +1,13 @@
 package com.mccoy.yourstatus.rest;
 
 import com.mccoy.yourstatus.entity.User;
+import com.mccoy.yourstatus.entity.invalid.InvalidUser;
 import com.mccoy.yourstatus.service.UserService;
 import javax.inject.Inject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.awt.*;
+import java.util.List;
 
 
 @Path("/User")
@@ -20,7 +21,15 @@ public class UserEndpoint {
     @Path("{userId}")
     public Response getUser(@PathParam("userId") Long userId) {
         User user = userService.getUser(userId);
+        if(user instanceof InvalidUser) return Response.serverError().entity("Invalid User").build();
         return Response.ok().entity(user).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return Response.ok().entity(users).build();
     }
 
     @POST

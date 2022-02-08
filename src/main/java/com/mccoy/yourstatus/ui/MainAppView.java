@@ -36,12 +36,14 @@ public class MainAppView extends AppLayout {
     Tab messagesTab;
     Tab followTab;
 
-    UserStatusMessageService userStatusMessageService = new UserStatusMessageService();
+    @Inject
+    UserStatusMessageService userStatusMessageService;
 
     @Inject
     UserService userService;
 
-    UserFollowService userFollowService = new UserFollowService();
+    @Inject
+    UserFollowService userFollowService;
 
     public MainAppView() {
         H1 title = new H1("YourStatus");
@@ -122,7 +124,6 @@ public class MainAppView extends AppLayout {
         Grid<User> grid = new Grid<>();
 
         List<User> users = userService.getAllUsers();
-
 
         grid.setItems(users);
         grid.addColumn(User::getId).setHeader("Id");

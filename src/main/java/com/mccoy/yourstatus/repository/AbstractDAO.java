@@ -4,15 +4,15 @@ import org.hibernate.jpa.boot.internal.EntityManagerFactoryBuilderImpl;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceUnit;
+import javax.persistence.*;
 import javax.transaction.Transactional;
 import javax.transaction.UserTransaction;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Consumer;
 import java.util.logging.Logger;
 
-public class AbstractDAO {
+public abstract class AbstractDAO<T> {
     Logger LOG = Logger.getLogger(AbstractDAO.class.getName());
 
     @PersistenceUnit(unitName = "YourStatus_PU")
@@ -38,7 +38,26 @@ public class AbstractDAO {
         return em;
     }
 
+    protected void executeInsideTransaction(Consumer<EntityManager> action) {
+        EntityTransaction tx = em.getTransaction();
+        try {
+            tx.begin();
+            action.accept(em);
+            tx.commit();
+        }
+        catch (RuntimeException e) {
+            tx.rollback();
+            throw e;
+        }
+    }
+
     protected UserTransaction getUtx() {
         return utx;
     }
+
+    public abstract Optional<T> get(Long id);
+    public abstract List<T> getAll();
+    public abstract T add(T t);
+    public abstract T update(T t);
+    public abstract T remove(T t);
 }

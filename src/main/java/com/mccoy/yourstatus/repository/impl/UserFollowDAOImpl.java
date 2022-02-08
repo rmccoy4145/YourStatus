@@ -3,21 +3,16 @@ package com.mccoy.yourstatus.repository.impl;
 import com.mccoy.yourstatus.entity.UserFollow;
 import com.mccoy.yourstatus.entity.User;
 import com.mccoy.yourstatus.repository.AbstractDAO;
-import com.mccoy.yourstatus.repository.Repository;
+import com.mccoy.yourstatus.repository.OwnedByUserDAO;
 
-import javax.annotation.PostConstruct;
-import javax.ejb.Stateless;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @Transactional
-public class UserFollowRepositoryImpl extends AbstractDAO implements Repository<UserFollow> {
-    Logger LOG = Logger.getLogger(UserFollowRepositoryImpl.class.getName());
+public class UserFollowDAOImpl extends AbstractDAO<UserFollow> implements OwnedByUserDAO<UserFollow> {
+    Logger LOG = Logger.getLogger(UserFollowDAOImpl.class.getName());
 
 
     @Override
@@ -36,8 +31,8 @@ public class UserFollowRepositoryImpl extends AbstractDAO implements Repository<
 
 
     @Override
-    public UserFollow get(Long id) {
-        return getEm().find(UserFollow.class, id);
+    public Optional<UserFollow> get(Long id) {
+        return Optional.ofNullable(getEm().find(UserFollow.class, id));
     }
 
     @Override

@@ -1,15 +1,10 @@
 package com.mccoy.yourstatus.service;
 
 import com.mccoy.yourstatus.entity.User;
-import com.mccoy.yourstatus.repository.Repository;
-import com.mccoy.yourstatus.repository.impl.UserRepositoryImpl;
+import com.mccoy.yourstatus.entity.invalid.InvalidUser;
+import com.mccoy.yourstatus.repository.impl.UserDAOImpl;
 
-import javax.ejb.Stateless;
-import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -20,8 +15,13 @@ import java.util.logging.Logger;
 public class UserService {
 
     Logger LOG = Logger.getLogger(UserService.class.getName());
+
+    UserDAOImpl dao;
+
     @Inject
-    UserRepositoryImpl repo;
+    public UserService(UserDAOImpl dao) {
+        this.dao = dao;
+    }
 
     /**
      * Add new user
@@ -29,7 +29,7 @@ public class UserService {
      * @return
      */
     public User addUser(User user) {
-        return repo.add(user);
+        return dao.add(user);
     }
 
     /**
@@ -38,11 +38,11 @@ public class UserService {
      * @return
      */
     public User getUser(Long id) {
-        return repo.get(id);
+        return dao.get(id).orElseGet(InvalidUser::new);
     }
 
     public List<User> getAllUsers() {
-        return repo.getAll();
+        return dao.getAll();
     }
 
 

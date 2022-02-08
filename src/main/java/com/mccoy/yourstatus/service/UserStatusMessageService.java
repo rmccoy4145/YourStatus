@@ -3,12 +3,10 @@ package com.mccoy.yourstatus.service;
 import com.mccoy.yourstatus.entity.User;
 import com.mccoy.yourstatus.entity.UserFollow;
 import com.mccoy.yourstatus.entity.UserStatusMessage;
-import com.mccoy.yourstatus.repository.Repository;
-import com.mccoy.yourstatus.repository.impl.UserFollowRepositoryImpl;
-import com.mccoy.yourstatus.repository.impl.UserStatusMessageRepositoryImpl;
+import com.mccoy.yourstatus.repository.impl.UserFollowDAOImpl;
+import com.mccoy.yourstatus.repository.impl.UserStatusMessageDAOImpl;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.transaction.Transactional;
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +15,16 @@ import java.util.List;
  */
 
 public class UserStatusMessageService {
-    Repository<UserStatusMessage> messageRepo = new UserStatusMessageRepositoryImpl();
-    Repository<UserFollow> followRepo = new UserFollowRepositoryImpl();
+
+    UserStatusMessageDAOImpl messageDao;
+
+    UserFollowDAOImpl followDao;
+
+    @Inject
+    public UserStatusMessageService(UserStatusMessageDAOImpl messageDao, UserFollowDAOImpl followDao) {
+        this.messageDao = messageDao;
+        this.followDao = followDao;
+    }
 
     /**
      * Get user message feed
@@ -26,7 +32,7 @@ public class UserStatusMessageService {
      * @return
      */
     public List<UserStatusMessage> getUserMessageFeed(User user) {
-        return messageRepo.getAllByUser(user);
+        return messageDao.getAllByUser(user);
     }
 
     /**
@@ -36,8 +42,8 @@ public class UserStatusMessageService {
      */
     public List<UserStatusMessage> getFollowedMessageFeed(User user) {
         List<UserStatusMessage> allFollowersMessages = new ArrayList<>();
-        followRepo.getAllByUser(user).forEach(userFollow -> {
-            allFollowersMessages.addAll(messageRepo.getAllByUser(userFollow.getFollowUser()));
+        followDao.getAllByUser(user).forEach(userFollow -> {
+            allFollowersMessages.addAll(messageDao.getAllByUser(userFollow.getFollowUser()));
         });
         return allFollowersMessages;
     }
@@ -47,7 +53,7 @@ public class UserStatusMessageService {
      * @return
      */
     public List<UserStatusMessage> getAllBroadcastMessage() {
-        UserStatusMessageRepositoryImpl usmRepoImpl = (UserStatusMessageRepositoryImpl) messageRepo;
+        UserStatusMessageDAOImpl usmRepoImpl = (UserStatusMessageDAOImpl) messageDao;
         return usmRepoImpl.getAllBroadcast();
     }
 
@@ -74,7 +80,7 @@ public class UserStatusMessageService {
      * @return
      */
     public UserStatusMessage addMessage(UserStatusMessage message) {
-        return messageRepo.add(message);
+        return messageDao.add(message);
     }
 
     /**
@@ -82,7 +88,7 @@ public class UserStatusMessageService {
      * @return
      */
     public List<UserStatusMessage> getAllMessageFeed() {
-        return messageRepo.getAll();
+        return messageDao.getAll();
     }
 
 

@@ -2,11 +2,9 @@ package com.mccoy.yourstatus.service;
 
 import com.mccoy.yourstatus.entity.User;
 import com.mccoy.yourstatus.entity.UserFollow;
-import com.mccoy.yourstatus.repository.Repository;
-import com.mccoy.yourstatus.repository.impl.UserFollowRepositoryImpl;
+import com.mccoy.yourstatus.repository.impl.UserFollowDAOImpl;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.transaction.Transactional;
+import javax.inject.Inject;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +14,12 @@ import java.util.Optional;
 
 public class UserFollowService {
 
-    Repository<UserFollow> repo = new UserFollowRepositoryImpl();
+
+    UserFollowDAOImpl dao;
+    @Inject
+    public UserFollowService(UserFollowDAOImpl dao) {
+        this.dao = dao;
+    }
 
     /**
      * Get all users a user is following
@@ -24,7 +27,7 @@ public class UserFollowService {
      * @return
      */
     public List<UserFollow> getFollowedBy(User user) {
-        return repo.getAllByUser(user);
+        return dao.getAllByUser(user);
     }
 
     /**
@@ -33,7 +36,7 @@ public class UserFollowService {
      * @return
      */
     public List<UserFollow> getFollowersOf(User user) {
-        UserFollowRepositoryImpl ufRepoImpl = (UserFollowRepositoryImpl) repo;
+        UserFollowDAOImpl ufRepoImpl = (UserFollowDAOImpl) dao;
         return ufRepoImpl.getFollowersBy(user);
     }
 
@@ -47,7 +50,7 @@ public class UserFollowService {
         UserFollow userFollow = new UserFollow();
         userFollow.setUser(user);
         userFollow.setFollowUser(follower);
-        return repo.add(userFollow);
+        return dao.add(userFollow);
     }
 
     /**
@@ -56,15 +59,15 @@ public class UserFollowService {
      * @param follower
      */
     public void removeFollower(User user, User follower) {
-        Optional<UserFollow> optUserFollow = repo.getAllByUser(user).stream().filter(userFollow -> {
+        Optional<UserFollow> optUserFollow = dao.getAllByUser(user).stream().filter(userFollow -> {
             return userFollow.getFollowUser().equals(follower);
         }).findFirst();
 
-        optUserFollow.ifPresent(userFollow -> repo.remove(userFollow));
+        optUserFollow.ifPresent(userFollow -> dao.remove(userFollow));
     }
 
     public List<UserFollow> getAll() {
-        return repo.getAll();
+        return dao.getAll();
     }
 
 }
