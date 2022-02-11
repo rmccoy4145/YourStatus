@@ -1,4 +1,4 @@
-package com.mccoy.yourstatus.rest;
+package com.mccoy.yourstatus.web.rest;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;

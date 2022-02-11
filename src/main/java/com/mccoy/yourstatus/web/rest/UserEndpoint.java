@@ -1,34 +1,38 @@
-package com.mccoy.yourstatus.rest;
+package com.mccoy.yourstatus.web.rest;
 
 import com.mccoy.yourstatus.entity.User;
-import com.mccoy.yourstatus.entity.invalid.InvalidUser;
-import com.mccoy.yourstatus.service.UserService;
-import javax.inject.Inject;
+import com.mccoy.yourstatus.service.Impl.UserServiceImpl;
+import com.mccoy.yourstatus.web.util.ServiceUtil;
+
+import javax.ejb.DependsOn;
+import javax.ejb.EJB;
+import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-
 @Path("/User")
 public class UserEndpoint {
 
-    @Inject
-    UserService userService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("{userId}")
     public Response getUser(@PathParam("userId") Long userId) {
-        User user = userService.getUser(userId);
-        if(user instanceof InvalidUser) return Response.serverError().entity("Invalid User").build();
-        return Response.ok().entity(user).build();
+        try {
+            User user = ServiceUtil.getUserService().get(userId);
+            return Response.ok().entity(user).build();
+        } catch (EntityNotFoundException ex) {
+            return Response.serverError().entity("Invalid User").build();
+        }
+
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllUsers() {
-        List<User> users = userService.getAllUsers();
+        List<User> users = ServiceUtil.getUserService().getAll();
         return Response.ok().entity(users).build();
     }
 
@@ -36,7 +40,7 @@ public class UserEndpoint {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addUser(User user) {
-        userService.addUser(user);
+        ServiceUtil.getUserService().add(user);
         return Response.ok().entity("User added!").build();
     }
 

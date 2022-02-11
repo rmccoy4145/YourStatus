@@ -1,9 +1,7 @@
-package com.mccoy.yourstatus.ui;
+package com.mccoy.yourstatus.web;
 
 import com.mccoy.yourstatus.entity.User;
-import com.mccoy.yourstatus.service.UserFollowService;
-import com.mccoy.yourstatus.service.UserService;
-import com.mccoy.yourstatus.service.UserStatusMessageService;
+import com.mccoy.yourstatus.web.util.ServiceUtil;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -19,9 +17,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @NpmPackage(value = "lumo-css-framework", version = "^4.0.10")
@@ -36,14 +32,8 @@ public class MainAppView extends AppLayout {
     Tab messagesTab;
     Tab followTab;
 
-    @Inject
-    UserStatusMessageService userStatusMessageService;
+    ServiceUtil serviceUtil = new ServiceUtil();
 
-    @Inject
-    UserService userService;
-
-    @Inject
-    UserFollowService userFollowService;
 
     public MainAppView() {
         H1 title = new H1("YourStatus");
@@ -123,7 +113,7 @@ public class MainAppView extends AppLayout {
         // Create a grid bound to the list
         Grid<User> grid = new Grid<>();
 
-        List<User> users = userService.getAllUsers();
+        List<User> users = serviceUtil.getUserService().getAll();
 
         grid.setItems(users);
         grid.addColumn(User::getId).setHeader("Id");

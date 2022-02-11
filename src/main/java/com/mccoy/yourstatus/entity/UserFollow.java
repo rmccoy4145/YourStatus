@@ -2,10 +2,11 @@ package com.mccoy.yourstatus.entity;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "user_follow")
-public class UserFollow {
+public class UserFollow implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
