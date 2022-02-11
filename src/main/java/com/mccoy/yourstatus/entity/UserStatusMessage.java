@@ -2,11 +2,12 @@ package com.mccoy.yourstatus.entity;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "user_status_message")
-public class UserStatusMessage {
+public class UserStatusMessage implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -19,7 +20,7 @@ public class UserStatusMessage {
     //TODO: date time format does not match postman mock server
     private LocalDateTime datetime;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     @JsonbTransient
     private User user;
