@@ -1,6 +1,7 @@
 package com.mccoy.yourstatus.service.Impl;
 
 import com.mccoy.yourstatus.entity.User;
+import com.mccoy.yourstatus.entity.UserFollow;
 import com.mccoy.yourstatus.service.AbstractJpaService;
 import com.mccoy.yourstatus.service.GenericDAO;
 
@@ -15,7 +16,7 @@ import java.util.logging.Logger;
  */
 @Stateful
 @Local
-public class UserServiceImpl extends AbstractJpaService<User> implements GenericDAO<User> {
+public class UserServiceImpl extends AbstractJpaService<User> implements GenericDAO<User>{
 
     Logger LOG = Logger.getLogger(UserServiceImpl.class.getName());
 

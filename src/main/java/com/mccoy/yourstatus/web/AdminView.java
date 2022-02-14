@@ -1,6 +1,8 @@
 package com.mccoy.yourstatus.web;
 
 import com.mccoy.yourstatus.entity.User;
+import com.mccoy.yourstatus.entity.UserFollow;
+import com.mccoy.yourstatus.entity.UserStatusMessage;
 import com.mccoy.yourstatus.web.util.ServiceUtil;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Text;
@@ -24,18 +26,16 @@ import java.util.List;
 @NpmPackage(value = "line-awesome", version = "1.3.0")
 @Theme(themeFolder = "myapp", variant = Lumo.DARK)
 @PageTitle("YourStatus - Admin")
-@Route("/")
-public class MainAppView extends AppLayout {
+@Route("/admin")
+public class AdminView extends AppLayout {
 
     Tab dashboardTab;
     Tab usersTab;
     Tab messagesTab;
     Tab followTab;
 
-    ServiceUtil serviceUtil = new ServiceUtil();
 
-
-    public MainAppView() {
+    public AdminView() {
         H1 title = new H1("YourStatus");
         title.getStyle()
                 .set("font-size", "var(--lumo-font-size-l)")
@@ -91,29 +91,25 @@ public class MainAppView extends AppLayout {
     }
 
     private Component getMessageContent() {
-        MessageList messageList = new MessageList();
-        List<MessageListItem> items = new ArrayList<>();
-//        userStatusMessageService.getAllMessageFeed().forEach( userStatusMessage -> {
-//            MessageListItem messageListItem = new MessageListItem();
-//            messageListItem.setTime(Instant.parse(userStatusMessage.getDatetime().toString()));
-//            messageListItem.setUserName(userStatusMessage.getUser().getUsername());
-//            messageListItem.setText(userStatusMessage.getMessage());
-//            items.add(messageListItem);
-//        });
-        if (items.isEmpty()) {
-            MessageListItem messageListItem = new MessageListItem();
-            messageListItem.setText("No messages...");
-            items.add(messageListItem);
-        }
-        messageList.setItems(items);
-        return messageList;
+        Grid<UserStatusMessage> grid = new Grid<>();
+
+        List<UserStatusMessage> userFollows = ServiceUtil.getUserStatusMessageService().getAll();
+
+        grid.setItems(userFollows);
+        grid.addColumn(UserStatusMessage::getId).setHeader("Id");
+        grid.addColumn(UserStatusMessage::getUserId).setHeader("UserId");
+        grid.addColumn(UserStatusMessage::getDatetime).setHeader("DateTime");
+        grid.addColumn(UserStatusMessage::getMessage).setHeader("Message");
+        grid.addColumn(UserStatusMessage::getBroadcast).setHeader("Broadcast");
+
+        return grid;
     }
 
     private Component getUsersContent() {
         // Create a grid bound to the list
         Grid<User> grid = new Grid<>();
 
-        List<User> users = serviceUtil.getUserService().getAll();
+        List<User> users = ServiceUtil.getUserService().getAll();
 
         grid.setItems(users);
         grid.addColumn(User::getId).setHeader("Id");
@@ -123,7 +119,17 @@ public class MainAppView extends AppLayout {
     }
 
     private Component getFollowContent() {
-        return new Text("Follow content...");
+        Grid<UserFollow> grid = new Grid<>();
+
+        List<UserFollow> userFollows = ServiceUtil.getUserFollowService().getAll();
+
+        grid.setItems(userFollows);
+        grid.addColumn(UserFollow::getId).setHeader("Id");
+        grid.addColumn(UserFollow::getUserId).setHeader("UserId");
+        grid.addColumn(UserFollow::getFollowUserId).setHeader("FollowUserId");
+
+        return grid;
     }
+
 
 }

@@ -10,14 +10,23 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 public class ServiceUtil {
-    private String uid = UUID.randomUUID().toString();
     private static Logger LOG = Logger.getLogger(ServiceUtil.class.getName());
+    private static InitialContext JNDI_CONTEXT;
+
+    static {
+        try {
+            JNDI_CONTEXT = new InitialContext();
+        } catch (NamingException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String uid = UUID.randomUUID().toString();
 
     public static UserServiceImpl getUserService() {
         UserServiceImpl svr = null;
         try {
-            InitialContext jndi = new InitialContext();
-            svr = (UserServiceImpl) jndi.lookup("java:global/YourStatus-1.0-SNAPSHOT/UserServiceImpl!com.mccoy.yourstatus.service.GenericDAO");
+            svr = (UserServiceImpl) JNDI_CONTEXT.lookup("java:global/YourStatus-1.0-SNAPSHOT/UserServiceImpl!com.mccoy.yourstatus.service.GenericDAO");
         } catch (NamingException e) {
             e.printStackTrace();
         }
@@ -27,8 +36,7 @@ public class ServiceUtil {
     public static UserFollowServiceImpl getUserFollowService() {
         UserFollowServiceImpl svr = null;
         try {
-            InitialContext jndi = new InitialContext();
-            svr = (UserFollowServiceImpl) jndi.lookup("java:global/YourStatus-1.0-SNAPSHOT/UserFollowServiceImpl!com.mccoy.yourstatus.service.GenericDAO");
+            svr = (UserFollowServiceImpl) JNDI_CONTEXT.lookup("java:global/YourStatus-1.0-SNAPSHOT/UserFollowServiceImpl!com.mccoy.yourstatus.service.GenericDAO");
         } catch (NamingException e) {
             e.printStackTrace();
         }
@@ -38,8 +46,7 @@ public class ServiceUtil {
     public static UserStatusMessageServiceImpl getUserStatusMessageService() {
         UserStatusMessageServiceImpl svr = null;
         try {
-            InitialContext jndi = new InitialContext();
-            svr = (UserStatusMessageServiceImpl) jndi.lookup("java:global/YourStatus-1.0-SNAPSHOT/UserStatusMessageServiceImpl!com.mccoy.yourstatus.service.GenericDAO");
+            svr = (UserStatusMessageServiceImpl) JNDI_CONTEXT.lookup("java:global/YourStatus-1.0-SNAPSHOT/UserStatusMessageServiceImpl!com.mccoy.yourstatus.service.GenericDAO");
         } catch (NamingException e) {
             e.printStackTrace();
         }

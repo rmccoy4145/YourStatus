@@ -1,6 +1,8 @@
 package com.mccoy.yourstatus.service;
 
+import javax.inject.Inject;
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -11,7 +13,6 @@ public abstract class AbstractJpaService<T> implements GenericDAO<T>{
 
     @PersistenceUnit(unitName = "YourStatus_PU")
     private EntityManagerFactory emf;
-
     protected EntityManager em;
 
 
@@ -25,6 +26,7 @@ public abstract class AbstractJpaService<T> implements GenericDAO<T>{
         return em;
     }
 
+    //Not used at the moment
     protected void executeInsideTransaction(Consumer<EntityManager> action) {
         EntityTransaction tx = em.getTransaction();
         try {
@@ -49,7 +51,7 @@ public abstract class AbstractJpaService<T> implements GenericDAO<T>{
 
     public List<T> getAll() {
 
-        return getEm().createQuery(new StringBuilder().append("SELECT f FROM ").append(getType().getSimpleName()).append(" f").toString(), getType())
+        return getEm().createQuery(new StringBuilder().append("SELECT f FROM ").append(getType().getSimpleName()).append(" ").append("f").toString(), getType())
                 .getResultList();
     }
 
