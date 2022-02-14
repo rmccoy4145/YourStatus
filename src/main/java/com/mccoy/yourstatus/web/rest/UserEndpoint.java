@@ -6,6 +6,7 @@ import com.mccoy.yourstatus.web.util.ServiceUtil;
 
 import javax.ejb.DependsOn;
 import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -15,6 +16,8 @@ import java.util.List;
 @Path("/User")
 public class UserEndpoint {
 
+//    @Inject
+//    UserServiceImpl userService;
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)

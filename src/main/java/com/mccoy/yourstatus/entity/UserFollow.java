@@ -29,12 +29,10 @@ public class UserFollow implements Serializable {
     private Long followUserId;
 
     public Long getFollowUserId() {
-        return followUserId;
+        return followUser.getId();
     }
 
-    public Long getUserId() {
-        return userId;
-    }
+    public Long getUserId() {return user.getId();}
 
     public Long getId() {
         return id;
