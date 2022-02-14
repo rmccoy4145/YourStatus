@@ -1,6 +1,7 @@
 package com.mccoy.yourstatus.web;
 
 import com.mccoy.yourstatus.entity.User;
+import com.mccoy.yourstatus.entity.UserStatusMessage;
 import com.mccoy.yourstatus.web.util.ServiceUtil;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentUtil;
@@ -9,12 +10,13 @@ import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.messages.MessageInput;
 import com.vaadin.flow.component.messages.MessageList;
 import com.vaadin.flow.component.messages.MessageListItem;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.page.Page;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.tabs.TabsVariant;
@@ -22,12 +24,10 @@ import com.vaadin.flow.router.*;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.lumo.Lumo;
 
+import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -54,7 +54,6 @@ public class UserMainView extends AppLayout implements BeforeEnterObserver {
         menu = createMenu();
         addToDrawer(createDrawerContent(menu));
 
-        setContent(getMainMessagesFeed());
     }
 
     /**
@@ -68,8 +67,9 @@ public class UserMainView extends AppLayout implements BeforeEnterObserver {
         User user = ServiceUtil.getUserService().get(Long.parseLong(userId));
         LOG.info(String.format("Accessed as user: %s", user.getUsername()));
 
-        // Add Navbar to View with URL parameters
+        // Add Navbar anad Content to the View with URL parameters
         addToNavbar(true, createHeaderContent(user));
+        setContent(getMessageFeedWindow(user));
     }
 
 
@@ -147,8 +147,8 @@ public class UserMainView extends AppLayout implements BeforeEnterObserver {
         return tab;
     }
 
-    private Component getMainMessagesFeed() {
-        User user = ServiceUtil.getUserService().get(1L);
+    private Component getMessageFeedWindow(User user) {
+        VerticalLayout messageWindow = new VerticalLayout();
         MessageList messages = new MessageList();
         List<MessageListItem> items = new ArrayList<>();
 
@@ -163,6 +163,20 @@ public class UserMainView extends AppLayout implements BeforeEnterObserver {
         }).collect(Collectors.toList());
 
         messages.setItems(items);
-        return messages;
+        MessageInput input = new MessageInput();
+        input.addSubmitListener(submitEvent -> {
+            UserStatusMessage message = new UserStatusMessage();
+            message.setMessage(submitEvent.getValue());
+            message.setDatetime(LocalDateTime.now());
+            message.setUser(user);
+
+            ServiceUtil.getUserStatusMessageService().add(message);
+
+            Notification.show("Message sent: " + submitEvent.getValue(),
+                    3000, Notification.Position.MIDDLE);
+        });
+
+        messageWindow.add(messages, input);
+        return messageWindow;
     }
 }
